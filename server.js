@@ -3,6 +3,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const app = express();
+const userRouter = require('./routes/userRouter')
 
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/2fa', {
     useNewUrlParser: true,
@@ -16,6 +17,7 @@ const PORT = process.env.PORT || 8080;
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use('/api/users', userRouter);
 
 // Starting the server
 app.listen(PORT, () => {
