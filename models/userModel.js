@@ -19,9 +19,8 @@ const userSchema = new mongoose.Schema(
             type: String, 
             required: 'Phone Number is required'
         },  
-        isAdmin: {
+        isVerified: {
             type: Boolean,
-            required: true,
             default: false
         }
     }, 
