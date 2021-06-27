@@ -58,18 +58,28 @@ userRouter.post('/verifyOtp', async (req, res, next) => {
         user.isVerified = true;
         updatedUser = await user.save();
 
-        res.send({
-            message: "User successfully verified. You can now access protected resources using the provided jwt token",
-            data: {
-                _id: updatedUser._id,
-                name: updatedUser.name,
-                email: updatedUser.email,
-                isVerified: updatedUser.isVerified,
-                token: generateToken(updatedUser)
-            }
-        })
+        return (
+            res.send({
+                message: "User successfully verified. You can now access protected resources using the provided jwt token",
+                data: {
+                    _id: updatedUser._id,
+                    name: updatedUser.name,
+                    email: updatedUser.email,
+                    isVerified: updatedUser.isVerified,
+                    token: generateToken(updatedUser)
+                }
+            }));
     }
-    res.status(400).send({ message: 'No user found with the provided phone number' });
+    res.status(400).send({ message: 'No user found with the provided phone number or the provided OTP is invalid' });
+})
+
+userRouter.get('/protected', isAuth, (req, res, next) => {
+    res.send({
+        message: "You have succesfully received the protected resource!",
+        data: {
+            protectedResource: "I <3 MLH"
+        }
+    });
 })
 
 module.exports = userRouter;
